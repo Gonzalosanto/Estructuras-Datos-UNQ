@@ -126,3 +126,76 @@ longitudMayorA n [] = []
 longitudMayorA n (ls:lss) = if longitud ls > n 
     then ls : longitudMayorA n lss
     else longitudMayorA n lss
+
+intercalar:: a -> [a] -> [a]
+intercalar e [] = []
+intercalar e [x] = [x]
+intercalar e (x:xs) = x : e : intercalar e xs
+
+snoc:: [a] -> a -> [a]
+snoc [] e = [e]
+snoc (x:xs) e = x : snoc xs e
+
+append:: [a] -> [a] -> [a]
+append [] ys = ys
+append xs [] = xs
+append (x:xs) ys = x : append xs ys
+
+aplanar:: [[a]] -> [a]
+aplanar [] = []
+aplanar (x:xs) = append x (aplanar xs)
+
+reversa::[a] -> [a]
+reversa [] = []
+reversa (x:xs) = snoc (reversa xs) x
+
+--OJO con el doble Pattern Matching
+zipMaximos:: [Int] -> [Int] -> [Int]
+zipMaximos [] [] = []
+zipMaximos xs [] = xs
+zipMaximos [] ys = ys
+zipMaximos (x:xs) (y:ys) = (max x y) : zipMaximos xs ys
+
+zipSort:: [Int] -> [Int] -> [(Int, Int)]
+zipSort [] [] = []
+zipSort [] _ = error "Longitudes de listas diferentes"
+zipSort _ [] = error "Longitudes de listas diferentes"
+zipSort (x:xs) (y:ys) = (min x y, max x y) : zipSort xs ys
+
+-- RECURSION SOBRE NUMEROS --
+
+factorial:: Int -> Int
+factorial 0 = 1
+factorial n = n * factorial (n-1)
+
+cuentaRegresiva:: Int -> [Int]
+cuentaRegresiva 0 = []
+cuentaRegresiva n = n : cuentaRegresiva (n - 1)
+
+contarHasta:: Int -> [Int]
+contarHasta 0 = []
+contarHasta n = snoc (contarHasta (n - 1)) n
+
+replicarN:: Int -> a -> [a]
+replicarN 0 x = []
+replicarN n x = x : replicarN (n - 1) x
+
+desdeHasta:: Int -> Int -> [Int]
+desdeHasta n m
+    | n > m = []
+    | otherwise = n : desdeHasta (n + 1) m
+
+takeN:: Int -> [a] -> [a]
+takeN 0 _ = []
+takeN _ [] = []
+takeN n (x:xs) = x : takeN (n - 1) xs
+
+dropN:: Int -> [a] -> [a]
+dropN 0 xs = xs
+dropN _ [] = []
+dropN n (_:xs) = dropN (n - 1) xs
+
+splitN:: Int -> [a] -> ([a],[a])
+splitN 0 xs = ([], xs)
+splitN _ [] = ([], [])
+splitN n (x:xs) = (takeN n (x:xs), dropN n (x:xs))
