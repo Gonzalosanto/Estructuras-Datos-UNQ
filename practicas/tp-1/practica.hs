@@ -16,13 +16,14 @@ negar:: Bool->Bool
 negar True = False
 negar _ = True
 
+--Es muy facil hacer doble PM
 andLogico::Bool -> Bool -> Bool
-andLogico True True = True
-andLogico _ _ = False
+andLogico False _ = False
+andLogico True x = True
 
 orLogico:: Bool -> Bool -> Bool
-orLogico False False = False
-orLogico _ _ = True
+orLogico True _ = True
+orLogico False x  = x
 
 primera:: (Int,Int) -> Int
 primera (x,_) = x
@@ -149,12 +150,19 @@ reversa::[a] -> [a]
 reversa [] = []
 reversa (x:xs) = snoc (reversa xs) x
 
---OJO con el doble Pattern Matching
+{- OJO con el doble Pattern Matching (Parece ser que esta permitido en este caso por ser excepcion) 
+    Si no seria posible solucion:
+zipMaximos [] ys = ys
+zipMaximos (x:xs) ys =
+case ys of
+    []     -> x:xs
+    y:ys'  -> max x y : zipMaximos xs ys'
+-}
 zipMaximos:: [Int] -> [Int] -> [Int]
-zipMaximos [] [] = []
 zipMaximos xs [] = xs
 zipMaximos [] ys = ys
 zipMaximos (x:xs) (y:ys) = (max x y) : zipMaximos xs ys
+
 
 zipSort:: [Int] -> [Int] -> [(Int, Int)]
 zipSort [] [] = []
